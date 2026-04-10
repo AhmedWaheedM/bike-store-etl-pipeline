@@ -2,7 +2,7 @@
   <img src="assets/architecture_diagram.png" alt="Architecture Banner" width="100%"/>
 </p>
 
-<h1 align="center">🚴 Bike Store Sales — End-to-End Data Engineering Pipeline</h1>
+<h1 align="center">Bike Store Sales — End-to-End Data Engineering Pipeline</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/PySpark-3.4+-E25A1C?style=for-the-badge&logo=apachespark&logoColor=white"/>
@@ -20,7 +20,7 @@ models it into a <strong>Star Schema</strong>, and serves a flattened <strong>Sa
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 - [Architecture Overview](#-architecture-overview)
 - [Pipeline Flow](#-pipeline-flow)
@@ -35,7 +35,7 @@ models it into a <strong>Star Schema</strong>, and serves a flattened <strong>Sa
 
 ---
 
-## 🏗 Architecture Overview
+## Architecture Overview
 
 The pipeline follows the **Medallion Architecture** pattern (Bronze → Silver → Gold) implemented across Azure Data Lake Storage with Delta Lake format:
 
@@ -43,17 +43,17 @@ The pipeline follows the **Medallion Architecture** pattern (Bronze → Silver �
   <img src="assets/architecture_diagram.png" alt="Medallion Architecture Diagram" width="95%"/>
 </p>
 
-| Layer | Storage Container | Format | Purpose |
-|-------|-------------------|--------|---------|
-| **Landing** | `dlbikestorelanding` | Parquet | Raw ingested data from source systems |
-| **Staging 1** | `dlbikestorestage1` | Delta | Cleansed, deduplicated, type-cast data |
-| **Staging 2** | `dlbikestorestage2` | Delta | Lookup / reference tables (Date, Status) |
-| **Info Mart** | `dlbikestoreinfomart` | Delta | Star schema — 1 fact + 6 dimension tables |
-| **Data Mart** | `waheeddatamart` | Delta | Flattened, KPI-enriched table for BI |
+| Layer         | Storage Container     | Format  | Purpose                                   |
+| ------------- | --------------------- | ------- | ----------------------------------------- |
+| **Landing**   | `dlbikestorelanding`  | Parquet | Raw ingested data from source systems     |
+| **Staging 1** | `dlbikestorestage1`   | Delta   | Cleansed, deduplicated, type-cast data    |
+| **Staging 2** | `dlbikestorestage2`   | Delta   | Lookup / reference tables (Date, Status)  |
+| **Info Mart** | `dlbikestoreinfomart` | Delta   | Star schema — 1 fact + 6 dimension tables |
+| **Data Mart** | `waheeddatamart`      | Delta   | Flattened, KPI-enriched table for BI      |
 
 ---
 
-## 🔁 Pipeline Flow
+## Pipeline Flow
 
 <p align="center">
   <img src="assets/pipeline_flow.png" alt="Pipeline Flow" width="90%"/>
@@ -72,29 +72,30 @@ Each notebook corresponds to a discrete pipeline stage:
 
 ---
 
-## ⭐ Star Schema
+## Star Schema
 
 <p align="center">
   <img src="assets/star_schema.png" alt="Star Schema" width="90%"/>
 </p>
 
-| Table | Type | Key Columns |
-|-------|------|-------------|
-| `order_fact` | Fact | `order_id`, `customer_id`, `store_id`, `staff_id`, `product_id`, `quantity`, `list_price`, `discount` |
-| `customers_dim` | Dimension | `customer_id`, name, contact, address |
-| `products_dim` | Dimension | `product_id`, `brand_name`, `category_name`, `model_year`, `list_price` |
-| `stores_dim` | Dimension | `store_id`, `store_name`, contact, address |
-| `staffs_dim` | Dimension | `staff_id`, name, contact |
-| `date_dim` | Dimension | `date_id`, `date`, `year`, `quarter`, `month`, `week`, `day`, `day_name` |
-| `status_dim` | Dimension | `status_id`, `status` (Pending / Processing / Rejected / Completed) |
+| Table           | Type      | Key Columns                                                                                           |
+| --------------- | --------- | ----------------------------------------------------------------------------------------------------- |
+| `order_fact`    | Fact      | `order_id`, `customer_id`, `store_id`, `staff_id`, `product_id`, `quantity`, `list_price`, `discount` |
+| `customers_dim` | Dimension | `customer_id`, name, contact, address                                                                 |
+| `products_dim`  | Dimension | `product_id`, `brand_name`, `category_name`, `model_year`, `list_price`                               |
+| `stores_dim`    | Dimension | `store_id`, `store_name`, contact, address                                                            |
+| `staffs_dim`    | Dimension | `staff_id`, name, contact                                                                             |
+| `date_dim`      | Dimension | `date_id`, `date`, `year`, `quarter`, `month`, `week`, `day`, `day_name`                              |
+| `status_dim`    | Dimension | `status_id`, `status` (Pending / Processing / Rejected / Completed)                                   |
 
 ---
 
-## 📊 Power BI Dashboard
+## Power BI Dashboard
 
 The data mart feeds three interactive Power BI dashboards:
 
 ### Sales Dashboard
+
 > KPIs: Total Revenue · Total Quantity Sold · Average Order Value · Number of Orders  
 > Charts: AOV/Quarter · Revenue/Quarter · Revenue by State · Impact of Discounts on Revenue
 
@@ -103,6 +104,7 @@ The data mart feeds three interactive Power BI dashboards:
 </p>
 
 ### Products Dashboard
+
 > KPIs: Top Selling Product · Highest Quantity Product · Least Selling Product  
 > Charts: Quantity Sold by Product · Revenue by Product · Brand Loyalty · Revenue by Category
 
@@ -111,6 +113,7 @@ The data mart feeds three interactive Power BI dashboards:
 </p>
 
 ### Customer Dashboard
+
 > KPIs: Total Customers · CLV · Customer Retention Rate · Customer Value  
 > Charts: Customer Distribution · Retention by State · Customer Acquisition · Customer Value over Time
 
@@ -120,60 +123,60 @@ The data mart feeds three interactive Power BI dashboards:
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
-| Category | Technology |
-|----------|------------|
-| **Compute** | Azure Databricks (PySpark) |
-| **Storage** | Azure Data Lake Storage Gen2 (Blob) |
-| **Data Format** | Delta Lake, Apache Parquet |
-| **Language** | Python 3.10+, Spark SQL |
-| **Libraries** | PySpark, pandas, pgeocode, scipy, matplotlib, numpy |
-| **BI Tool** | Microsoft Power BI |
-| **Secret Management** | Databricks Secret Scopes (Azure Key Vault backed) |
+| Category              | Technology                                          |
+| --------------------- | --------------------------------------------------- |
+| **Compute**           | Azure Databricks (PySpark)                          |
+| **Storage**           | Azure Data Lake Storage Gen2 (Blob)                 |
+| **Data Format**       | Delta Lake, Apache Parquet                          |
+| **Language**          | Python 3.10+, Spark SQL                             |
+| **Libraries**         | PySpark, pandas, pgeocode, scipy, matplotlib, numpy |
+| **BI Tool**           | Microsoft Power BI                                  |
+| **Secret Management** | Databricks Secret Scopes (Azure Key Vault backed)   |
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
-📦 bike-store-etl-pipeline/
-├── 📄 README.md
-├── 📄 .gitignore
-├── 📄 requirements.txt
-├── 📄 Waheed_Power_BI.pbix          # Power BI report file
+bike-store-etl-pipeline/
+├── README.md
+├── .gitignore
+├── requirements.txt
+├── Waheed_Power_BI.pbix          # Power BI report file
 │
-├── 📂 Use_Case/                     # Databricks notebooks
-│   ├── 📄 config.py                 # Centralised config & secrets
-│   ├── 📄 utils.py                  # Reusable ETL utility functions
-│   ├── 📄 data_profiling_waheed.py  # Step 1: Data profiling
-│   ├── 📄 data_cleansing_waheed.py  # Step 2: Data cleansing
-│   ├── 📄 lookup_tables_waheed.py   # Step 3: Lookup table creation
-│   ├── 📄 catalog_creation_waheed.py# Step 4: Hive catalog registration
-│   ├── 📄 datamart_creation_waheed.py # Step 5: Sales data mart
+├── Use_Case/                     # Databricks notebooks
+│   ├── config.py                 # Centralised config & secrets
+│   ├── utils.py                  # Reusable ETL utility functions
+│   ├── data_profiling_waheed.py  # Step 1: Data profiling
+│   ├── data_cleansing_waheed.py  # Step 2: Data cleansing
+│   ├── lookup_tables_waheed.py   # Step 3: Lookup table creation
+│   ├── catalog_creation_waheed.py# Step 4: Hive catalog registration
+│   ├── datamart_creation_waheed.py # Step 5: Sales data mart
 │   │
-│   └── 📂 info_mart/               # Dimensional model notebooks
-│       ├── 📄 customer_dim.py
-│       ├── 📄 date_dim.py
-│       ├── 📄 order_fact.py
-│       ├── 📄 products_dim.py
-│       ├── 📄 staff_dim.py
-│       ├── 📄 status_dim.py
-│       └── 📄 store_dim.py
+│   └── info_mart/               # Dimensional model notebooks
+│       ├── customer_dim.py
+│       ├── date_dim.py
+│       ├── order_fact.py
+│       ├── products_dim.py
+│       ├── staff_dim.py
+│       ├── status_dim.py
+│       └── store_dim.py
 │
-└── 📂 assets/                       # Visual assets for README
-    ├── 📄 architecture_diagram.png
-    ├── 📄 star_schema.png
-    ├── 📄 pipeline_flow.png
-    └── 📂 dashboard/
-        ├── 📄 sales_dashboard.png
-        ├── 📄 products_dashboard.png
-        └── 📄 customer_dashboard.png
+└── assets/                       # Visual assets for README
+    ├── architecture_diagram.png
+    ├── star_schema.png
+    ├── pipeline_flow.png
+    └── dashboard/
+        ├── sales_dashboard.png
+        ├── products_dashboard.png
+        └── customer_dashboard.png
 ```
 
 ---
 
-## 🚀 Pipeline Execution Order
+## Pipeline Execution Order
 
 Run the notebooks in this exact sequence on your Databricks workspace:
 
@@ -196,50 +199,57 @@ Run the notebooks in this exact sequence on your Databricks workspace:
 
 ---
 
-## ⚙ Setup & Configuration
+## Setup & Configuration
 
 ### Prerequisites
+
 - Azure Databricks workspace with Runtime 13+
 - Azure Data Lake Storage Gen2 account
 - Databricks Secret Scope (`bikes-scope`) backed by Azure Key Vault
 - Power BI Desktop (for dashboard)
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/<your-username>/bike-store-etl-pipeline.git
 ```
 
 ### 2. Configure Secrets
+
 Ensure your Databricks Secret Scope has the storage account key:
+
 ```bash
 databricks secrets put --scope bikes-scope --key account-key
 ```
 
 ### 3. Import Notebooks
+
 Import the `Use_Case/` folder into your Databricks workspace.
 
 ### 4. Run the Pipeline
+
 Execute the notebooks in the [execution order](#-pipeline-execution-order) above.
 
 ### 5. Connect Power BI
+
 Open `Waheed_Power_BI.pbix` and point it at the `waheed_db.sales_datamart_waheed` table.
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-| Feature | Description |
-|---------|-------------|
-| **Metadata-Driven** | Column types, nullability, uniqueness, and PK flags are all controlled by a central metadata CSV |
-| **Outlier Detection** | Supports both IQR and Z-Score methods with remove or cap strategies |
-| **Zip Code Validation** | Uses `pgeocode` to validate US postal codes against a geographic database |
-| **Idempotent Writes** | All Delta writes use `overwrite` mode with `overwriteSchema` for safe re-runs |
-| **Calculated KPIs** | Revenue metrics, fulfillment flags, delivery delays, frequent customer flags |
-| **Secret Management** | Zero hardcoded credentials — all keys via Databricks Secret Scopes |
+| Feature                 | Description                                                                                      |
+| ----------------------- | ------------------------------------------------------------------------------------------------ |
+| **Metadata-Driven**     | Column types, nullability, uniqueness, and PK flags are all controlled by a central metadata CSV |
+| **Outlier Detection**   | Supports both IQR and Z-Score methods with remove or cap strategies                              |
+| **Zip Code Validation** | Uses `pgeocode` to validate US postal codes against a geographic database                        |
+| **Idempotent Writes**   | All Delta writes use `overwrite` mode with `overwriteSchema` for safe re-runs                    |
+| **Calculated KPIs**     | Revenue metrics, fulfillment flags, delivery delays, frequent customer flags                     |
+| **Secret Management**   | Zero hardcoded credentials — all keys via Databricks Secret Scopes                               |
 
 ---
 
-## 📝 License
+## License
 
 This project is open-source and available under the [MIT License](LICENSE).
 
