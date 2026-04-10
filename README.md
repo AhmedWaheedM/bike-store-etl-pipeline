@@ -40,7 +40,7 @@ models it into a <strong>Star Schema</strong>, and serves a flattened <strong>Sa
 The pipeline follows the **Medallion Architecture** pattern (Bronze → Silver → Gold) implemented across Azure Data Lake Storage with Delta Lake format:
 
 <p align="center">
-  <img src="assets/architecture_diagram.png" alt="Medallion Architecture Diagram" width="95%"/>
+  <img src="assets/architecture.png" alt="Medallion Architecture Diagram" width="95%"/>
 </p>
 
 | Layer         | Storage Container     | Format  | Purpose                                   |
